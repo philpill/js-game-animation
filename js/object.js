@@ -1,6 +1,6 @@
-(function(window, document, undefined){
+define(function (require) {
 
-    window.SHAPER = window.SHAPER || {};
+    require('microevent');
 
     var CanvasObject = function () {
 
@@ -67,6 +67,5 @@
 
     MicroEvent.mixin(CanvasObject);
 
-    window.SHAPER.CanvasObject = CanvasObject;
-
-})(window, document);
+    return CanvasObject;
+});

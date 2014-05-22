@@ -1,6 +1,6 @@
-(function(window, document, undefined){
+define(function (require) {
 
-    window.SHAPER = window.SHAPER || {};
+    var CanvasObject = require('object');
 
     var Square = function (args) {
 
@@ -17,7 +17,7 @@
     // JavaScript Inheritance Done Right
     // http://ncombo.wordpress.com/2013/07/11/javascript-inheritance-done-right/
 
-    var prototype = Object.create(window.SHAPER.CanvasObject.prototype);
+    var prototype = Object.create(CanvasObject.prototype);
 
     prototype.contains = function (mouseX, mouseY) {
 
@@ -43,6 +43,5 @@
 
     Square.prototype = prototype;
 
-    window.SHAPER.Square = Square;
-
-})(window, document);
+    return Square;
+});

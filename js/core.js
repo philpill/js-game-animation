@@ -3,6 +3,8 @@ define(function (require) {
     var Ticker = require('ticker');
     var Interface = require('interface');
     var Canvas = require('canvas');
+    var Circle = require('circle');
+    var Square = require('square');
 
     var Core = function (config) {
 
@@ -22,14 +24,14 @@ define(function (require) {
 
             this.bindEvents(this.config);
 
-            // this.shapes = [];
+            this.shapes = [];
 
-            // this.shapes.push(this.createShape1());
-            // this.shapes.push(this.createShape2());
+            this.shapes.push(this.createShape1());
+            this.shapes.push(this.createShape2());
         },
         createShape1 : function () {
 
-            return new window.SHAPER.Square({
+            return new Square({
                 id : 1,
                 height : 10,
                 width : 10,
@@ -39,7 +41,7 @@ define(function (require) {
         },
         createShape2 : function () {
 
-            return new window.SHAPER.Circle({
+            return new Circle({
                 id : 2,
                 radius : 10,
                 x : 60,
@@ -49,16 +51,12 @@ define(function (require) {
         loadModules : function (config) {
 
             this.ticker = new Ticker(config);
-
             this.ticker.init();
 
-
             this.interface = new Interface(config);
-
             this.interface.init();
 
             this.canvas = new Canvas(config);
-
             this.canvas.init();
         },
         getSerializedShapes : function () {
