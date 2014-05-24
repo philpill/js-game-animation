@@ -56,13 +56,29 @@ define(function (require) {
             }
         },
         renderSquare : function (shape) {
+
+            var selectedFillStyle = 'silver';
+
+            this.ctx.beginPath();
+            if (shape.isSelected) {
+                this.ctx.fillStyle = selectedFillStyle;
+            } else {
+                this.ctx.fillStyle = shape.fillStyle;
+            }
             this.ctx.rect(shape.x, shape.y, shape.width, shape.height);
+            this.ctx.fill();
             this.ctx.stroke();
         },
         renderCircle : function (shape) {
 
+            var selectedFillStyle = 'silver';
+
             this.ctx.beginPath();
-            this.ctx.fillStyle = shape.fillStyle;
+            if (shape.isSelected) {
+                this.ctx.fillStyle = selectedFillStyle;
+            } else {
+                this.ctx.fillStyle = shape.fillStyle;
+            }
             this.ctx.arc(shape.x, shape.y, shape.radius, shape.start, shape.end);
             this.ctx.fill();
             this.ctx.stroke();

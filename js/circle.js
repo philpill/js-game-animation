@@ -12,8 +12,9 @@ define(function (require) {
         this.x = args.x || 30;
         this.y = args.y || 30;
         this.fillStyle = '#0000ff';
-        this.clickable = true;
-        this.focusable = true;
+        this.isClickable = true;
+        this.isFocusable = true;
+        this.isSelectable = true;
     }
 
     // JavaScript Inheritance Done Right
@@ -37,7 +38,8 @@ define(function (require) {
             end         : this.end,
             x           : this.x,
             y           : this.y,
-            fillStyle   : this.fillStyle
+            fillStyle   : this.fillStyle,
+            isSelected  : this.isSelected
         }
     };
 

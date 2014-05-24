@@ -10,8 +10,10 @@ define(function (require) {
         this.width = args.width || 10;
         this.x = args.x || 30;
         this.y = args.y || 30;
-        this.fillStyle = '#0000ff';
-        this.clickable = true;
+        this.fillStyle = '#ff0000';
+        this.isClickable = true;
+        this.isFocusable = true;
+        this.isSelectable = true;
     }
 
     // JavaScript Inheritance Done Right
@@ -37,7 +39,8 @@ define(function (require) {
             width       : this.width,
             x           : this.x,
             y           : this.y,
-            fillStyle   : this.fillStyle
+            fillStyle   : this.fillStyle,
+            isSelected  : this.isSelected
         }
     };
 

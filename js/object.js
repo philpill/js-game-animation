@@ -13,9 +13,11 @@ define(function (require) {
         this.lineWidth = 0;
         this.fillStyle = '#ffffff';
         this.strokeStyle = '#000000';
-        this.clickable = false;
-        this.focusable = false;
+        this.isClickable = false;
+        this.isSelectable = false;
+        this.isFocusable = false;
         this.hasFocus = false;
+        this.translateDelta = 0;
     }
 
     CanvasObject.prototype = {
@@ -26,8 +28,27 @@ define(function (require) {
 
             this[command + 'Command'](e);
         },
+        fuzzyEqual : function (valueA, valueB, delta) {
+
+            var fuzzyEqual = false;
+
+            fuzzyEqual = Math.round(valueA/delta)*delta === Math.round(valueB/delta)*delta;
+
+            return fuzzyEqual;
+        },
         tickCommand : function (e) {
 
+            var translateDelta = 10;
+
+            if (this.destinationX) {
+                this.x = this.x < this.destinationX ? this.x + translateDelta : this.x - translateDelta;
+                this.destinationX = this.fuzzyEqual(this.destinationX, this.x, translateDelta) ? null : this.destinationX;
+            }
+
+            if (this.destinationY) {
+                this.y = this.y < this.destinationY ? this.y + translateDelta : this.y - translateDelta;
+                this.destinationY = this.fuzzyEqual(this.destinationY, this.y, translateDelta) ? null : this.destinationY;
+            }
         },
         serialize : function () {
 
@@ -45,22 +66,23 @@ define(function (require) {
             }
         },
         blurCommand : function (e) {
-
-            if (this.hasFocus) {
-                this.hasFocus = false;
-            }
+            this.hasFocus = false;
+            this.isSelected = false;
         },
         focusCommand : function (e) {
-
-            if (this.focusable) {
+            if (this.isFocusable) {
                 this.hasFocus = true;
-                this.fillStyle = 'silver';
             }
         },
         clickCommand : function (e) {
-
-            if (this.clickable) {
+            if (this.isClickable) {
                 console.log(this);
+                console.log('clicked');
+            }
+        },
+        selectCommand : function (e) {
+            if (this.isSelectable) {
+                this.isSelected = true;
             }
         }
     }

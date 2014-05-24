@@ -19,7 +19,6 @@ define(function (require) {
 
             console.log('core.init()');
 
-
             this.loadModules(this.config);
 
             this.bindEvents(this.config);
@@ -28,6 +27,8 @@ define(function (require) {
 
             this.shapes.push(this.createShape1());
             this.shapes.push(this.createShape2());
+
+            this.selected = null;
         },
         createShape1 : function () {
 
@@ -99,9 +100,17 @@ define(function (require) {
         },
 
         blurObjects : function () {
+            this.selected = null;
             var l = this.shapes.length;
             while (l--) {
                 this.shapes[l].execute('blur');
+            }
+        },
+
+        tickObjects : function (objects) {
+            var l = objects.length;
+            while (l--) {
+                objects[l].execute('tick');
             }
         },
 
@@ -111,6 +120,7 @@ define(function (require) {
 
             this.ticker.bind('tick', function(e) {
                 that.interface.execute('tick', e);
+                that.tickObjects(that.shapes);
                 that.canvas.execute('tick', {
                     event: e,
                     shapes : that.getSerializedShapes()
@@ -118,11 +128,33 @@ define(function (require) {
             });
 
             this.canvas.bind('click', function(e) {
+                var mouse = that.getMouse(e);
                 var object = that.getClickedObject(that.getMouse(e));
-                if (object) {
+                if (object && object.isSelected) {
+
+                    that.blurObjects();
+
+                } else if (object) {
+
+                    that.blurObjects();
+
                     that.blurObjects();
                     object.execute('focus', e);
                     object.execute('click', e);
+
+                    if (object.isSelectable) {
+                        that.selected = object;
+                        object.execute('select', e);
+                    }
+
+                } else if (that.selected) {
+
+                    if (!config.isPaused) {
+                        // move object
+                        that.selected.destinationX = mouse.x;
+                        that.selected.destinationY = mouse.y;
+                    }
+
                 }
             });
 
