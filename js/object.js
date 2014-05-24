@@ -38,7 +38,11 @@ define(function (require) {
         },
         tickCommand : function (e) {
 
-            var translateDelta = 10;
+            this.translate();
+        },
+        translate : function () {
+
+            var translateDelta = 5;
 
             if (this.destinationX) {
                 this.x = this.x < this.destinationX ? this.x + translateDelta : this.x - translateDelta;

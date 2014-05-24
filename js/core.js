@@ -107,10 +107,10 @@ define(function (require) {
             }
         },
 
-        tickObjects : function (objects) {
+        tickObjects : function (objects, e) {
             var l = objects.length;
             while (l--) {
-                objects[l].execute('tick');
+                objects[l].execute('tick', e);
             }
         },
 
@@ -120,7 +120,7 @@ define(function (require) {
 
             this.ticker.bind('tick', function(e) {
                 that.interface.execute('tick', e);
-                that.tickObjects(that.shapes);
+                that.tickObjects(that.shapes, e);
                 that.canvas.execute('tick', {
                     event: e,
                     shapes : that.getSerializedShapes()

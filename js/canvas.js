@@ -79,7 +79,15 @@ define(function (require) {
             } else {
                 this.ctx.fillStyle = shape.fillStyle;
             }
-            this.ctx.arc(shape.x, shape.y, shape.radius, shape.start, shape.end);
+
+            if (shape.step) {
+                var x = Math.round(shape.x/shape.step)*shape.step;
+                var y = Math.round(shape.y/shape.step)*shape.step;
+                this.ctx.arc(x, y, shape.radius, shape.start, shape.end);
+            } else {
+                this.ctx.arc(shape.x, shape.y, shape.radius, shape.start, shape.end);
+            }
+
             this.ctx.fill();
             this.ctx.stroke();
 

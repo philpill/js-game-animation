@@ -23,7 +23,7 @@ define(function (require) {
 
             this.currentTime = new Date();
             this.fps = 1000 / (this.currentTime - this.previousTime);
-            this.trigger('tick', { 'fps' : this.fps });
+            this.trigger('tick', { 'fps' : this.fps, 'time' : Date.now() });
             this.previousTime = this.currentTime;
             this.timeoutId = window.setTimeout(this.tick.bind(this), this.timeout);
         },
