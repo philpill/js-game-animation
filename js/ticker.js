@@ -7,7 +7,7 @@ define(function (require) {
         this.timeout = config.timeout;
         this.previousTime = new Date();
         this.currentTime = new Date();
-        this.timeoutId;
+        this.requestID ;
         this.fps = 0;
     }
 
@@ -17,7 +17,7 @@ define(function (require) {
 
         init : function (args) {
 
-            this.timeoutId = window.setTimeout(this.tick.bind(this), this.timeout);
+            this.requestID = requestAnimationFrame(this.tick.bind(this));
         },
         tick : function () {
 
@@ -25,18 +25,18 @@ define(function (require) {
             this.fps = 1000 / (this.currentTime - this.previousTime);
             this.trigger('tick', { 'fps' : this.fps, 'time' : Date.now() });
             this.previousTime = this.currentTime;
-            this.timeoutId = window.setTimeout(this.tick.bind(this), this.timeout);
+            this.requestID = requestAnimationFrame(this.tick.bind(this));
         },
         pauseCommand : function () {
 
-            window.clearTimeout(this.timeoutId);
-            this.timeoutId = null;
+            cancelAnimationFrame(this.requestID);
+            this.requestID = null;
             this.trigger('pause');
         },
         resumeCommand : function () {
 
-            if (!this.timeoutId) {
-                this.timeoutId = window.setTimeout(this.tick.bind(this), this.timeout);
+            if (!this.requestID ) {
+                this.requestID = requestAnimationFrame(this.tick.bind(this));
             }
             this.trigger('resume');
         },
